@@ -57,10 +57,10 @@ int pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc,
   pam_get_item(pamh, PAM_AUTHTOK, (const void**) &authtok);
 
   char buffer[MAX_STR_LENGTH * 4] = {};
-  sprintf(buffer, "%s='%s' %s='%s' %s='%s'"
-          " python /lib/security/ganeti_basic/authenticate.py",
+  sprintf(buffer, "%s='%s' %s='%s' %s='%s' GANETI_PATH='%s'"
+          " python " PAM_LIB_PATH "/ganeti_basic/authenticate.py",
           PAM_ENV_USER, STR(user), PAM_ENV_PASSWORD, STR(password),
-          PAM_ENV_AUTHTOK, STR(authtok));
+          PAM_ENV_AUTHTOK, STR(authtok), GANETI_PATH);
 
   if (system(buffer))
     return PAM_AUTH_ERR;
@@ -86,11 +86,11 @@ int pam_sm_acct_mgmt(pam_handle_t *pamh, int flags, int argc,
   const char *access = pam_getenv(pamh, PAM_ENV_ACCESS);
   
   char buffer[MAX_STR_LENGTH * 6] = {};
-  sprintf(buffer, "%s='%s' %s='%s' %s='%s' %s='%s' %s='%s'"
-          " python /lib/security/ganeti_basic/authorize.py",
+  sprintf(buffer, "%s='%s' %s='%s' %s='%s' %s='%s' %s='%s', GANETI_PATH='%s'"
+          " python " PAM_LIB_PATH "/ganeti_basic/authorize.py",
           PAM_ENV_USER, STR(user), PAM_ENV_URI, STR(uri),
           PAM_ENV_BODY, STR(body), PAM_ENV_METHOD, STR(method),
-          PAM_ENV_ACCESS, STR(access));
+          PAM_ENV_ACCESS, STR(access), GANETI_PATH);
 
   if (system(buffer))
     return PAM_AUTH_ERR;

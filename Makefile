@@ -4,11 +4,15 @@ LIBRARIES=-lpam
 
 # Path to the pam libraries
 PAM_LIB_PATH=/lib/security
+# Path to an installed Ganeti
+GANETI_PATH=/usr/share/ganeti/default
+
+DEFINES=-DPAM_LIB_PATH='"$(PAM_LIB_PATH)"' -DGANETI_PATH='"$(GANETI_PATH)"'
 
 all: ganeti_basic.so
 
 ganeti_basic.so:
-	$(CC) $(LDFLAGS) pam_module.c -o ganeti_basic.so $(LIBRARIES)
+	$(CC) $(LDFLAGS) $(DEFINES) pam_module.c -o ganeti_basic.so $(LIBRARIES)
 
 install: ganeti_basic.so
 	cp ganeti_basic.so $(PAM_LIB_PATH)

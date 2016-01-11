@@ -7,7 +7,7 @@ PAM_ENV_USER = "GANETI_RAPI_USER"
 PAM_ENV_PASSWORD = "GANETI_RAPI_PASSWORD"
 PAM_ENV_AUTHTOK = "GANETI_RAPI_AUTHTOK"
 
-sys.path.insert(0, "/usr/share/ganeti/default")
+sys.path.insert(0, os.getenv("GANETI_PATH"))
 
 from ganeti.rapi.auth import users_file
 from ganeti import pathutils

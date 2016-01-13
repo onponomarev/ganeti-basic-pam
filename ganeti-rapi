@@ -1,0 +1,2 @@
+auth sufficient ganeti_basic.so
+account sufficient ganeti_basic.so
